@@ -38,16 +38,4 @@ Opens the image specified in an "image" or "figure" directive on the current
 line.
 
 
-## Tables defined by `_M.rest`
-
-<a id="keys.rest"></a>
-### `keys.rest`
-
-Container for reST-specific key bindings.
-
-<a id="snippets.rest"></a>
-### `snippets.rest`
-
-Container for reST-specific snippets.
-
 ---

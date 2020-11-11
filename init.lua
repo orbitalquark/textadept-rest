@@ -250,68 +250,58 @@ function M.open_image()
   os.spawn(cmd:format(buffer.filename:match('^.+[/\\]') .. file))
 end
 
----
--- Container for reST-specific key bindings.
--- @class table
--- @name _G.keys.rest
-keys.rest = {
-  [not OSX and 'ctrl+alt+g' or 'ctrl+cmd+g'] = M.goto_section,
-  ['shift+\n'] = M.open_image,
-}
+keys.rest[not OSX and 'ctrl+alt+g' or 'ctrl+cmd+g'] = M.goto_section
+keys.rest['shift+\n'] = M.open_image
 
 -- Snippets.
 
----
--- Container for reST-specific snippets.
--- @class table
--- @name _G.snippets.rest
-snippets.rest = {
-    attention = [[
+local snip = snippets.rest
+snip.attention = [[
 .. attention::
    %0
-]],
-    danger = [[
+]]
+snip.danger = [[
 .. danger::
    %0
-]],
-    error = [[
+]]
+snip.error = [[
 .. error::
    %0
-]],
-    hint = [[
+]]
+snip.hint = [[
 .. hint::
    %0
-]],
-    important = [[
+]]
+snip.important = [[
 .. important::
    %0
-]],
-    note = [[
+]]
+snip.note = [[
 .. note::
    %0
-]],
-    tip = [[
+]]
+snip.tip = [[
 .. tip::
    %0
-]],
-    warning = [[
+]]
+snip.warning = [[
 .. warning::
    %0
-]],
-    admonition = [[
+]]
+snip.admonition = [[
 .. admonition:: %1(title)
    %0
-]],
-    image = [[
+]]
+snip.image = [[
 .. image:: %1(picture.jpg)
    :height: %2(100px)
    :width: %3(200px)
    :scale: %4(50%%)
    :alt: %5(alternate text)
    :align: %6(right)
-]],
+]]
 
-    figure = [[
+snip.figure = [[
 .. figure:: %1(picture.jpg)
    :height: %2(100px)
    :width: %3(200px)
@@ -325,15 +315,15 @@ snippets.rest = {
 
    %10(legend)
 
-]],
+]]
 
-    codeblock = [[
+snip.codeblock = [[
 .. code-block:: %1(language)
    %2(:linenos:
 
    )%0
-]],
-    footnote = [[[#f%1(number)]_
+]]
+snip.footnote = [[[#f%1(number)]_
 
 
 .. rubric:: %2(Footnotes)
@@ -341,36 +331,35 @@ snippets.rest = {
 .. [#f1] Text of the first footnote.
 .. [#f2] Text of the second footnote.
 
-]],
+]]
 
-    replace = [[
+snip.replace = [[
 .. |%1(name)| replace:: %2(replacement *text*)
 
-]],
+]]
 
-    repeatingimage = [[
+snip.repeatingimage = [[
 .. |%1(caution)| image:: %2(warning.png)
    :height: %3(100px)
    :width: %4(200px)
    :scale: %5(50%%)
    :alt: %6(warning)
    :align: %7(right)
-]],
+]]
 
-    comment = ".. %0",
+snip.comment = ".. %0"
 
-    anchor = [[
-.. _`%1(anchor)`: ]],
+snip.anchor = [[
+.. _`%1(anchor)`: ]]
 
-    reference = [[:ref:`%1(anchor)`]],
+snip.reference = [[:ref:`%1(anchor)`]]
 
-    emphasis = [[*%1(text)*]],
-    strong_emphasis = [[**%1(text)**]],
-    code = [[``%1(text)``]],
-    external_link_together = [[`%1(link text) <%2(http://example.com/)>`_]],
-    external_link_separated = [[`%1(link text)`_
+snip.emphasis = [[*%1(text)*]]
+snip.strong_emphasis = [[**%1(text)**]]
+snip.code = [[``%1(text)``]]
+snip.external_link_together = [[`%1(link text) <%2(http://example.com/)>`_]]
+snip.external_link_separated = [[`%1(link text)`_
 
-.. _`%1`: %2(http://example.com/)]],
-}
+.. _`%1`: %2(http://example.com/)]]
 
 return M
