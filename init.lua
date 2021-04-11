@@ -1,4 +1,4 @@
--- Copyright 2007-2020 Mitchell. See LICENSE.
+-- Copyright 2007-2021 Mitchell. See LICENSE.
 
 local M = {}
 
@@ -15,8 +15,8 @@ local M = {}
 --   Open the image specified by the directive on the current line.
 --
 -- @field DOCUTILS_PATH (string)
---   The absolute path to the directory that contains the Python [Docutils][]
---   library if it is not in the environment's `PYTHONPATH`.
+--   The absolute path to the directory that contains the Python [Docutils][] library if it is
+--   not in the environment's `PYTHONPATH`.
 --   The default value is `nil`, which indicates Docutils is installed.
 --
 --   [Docutils]: http://docutils.sourceforge.net/
@@ -30,38 +30,31 @@ local sep = string.char(buffer.auto_c_type_separator)
 local XPM = textadept.editing.XPM_IMAGES
 
 local dirs = {
-  'admonition', 'attention', 'caution', 'citations', 'class', 'code',
-  'compound', 'container', 'contents', 'csv-table', 'danger', 'date',
-  'default-role', 'epigraph', 'error', 'figure', 'footer', 'footnotes',
-  'header', 'highlights', 'hint', 'image', 'important', 'include', 'line-block',
-  'list-table', 'math', 'meta', 'note', 'parsed-literal', 'pull-quote', 'raw',
-  'replace', 'restructuredtext-test-directive', 'role', 'rubric',
-  'section-autonumbering', 'sectnum', 'sidebar', 'table', 'target-notes', 'tip',
-  'title', 'topic', 'unicode', 'warning',
+  'admonition', 'attention', 'caution', 'citations', 'class', 'code', 'compound', 'container',
+  'contents', 'csv-table', 'danger', 'date', 'default-role', 'epigraph', 'error', 'figure',
+  'footer', 'footnotes', 'header', 'highlights', 'hint', 'image', 'important', 'include',
+  'line-block', 'list-table', 'math', 'meta', 'note', 'parsed-literal', 'pull-quote', 'raw',
+  'replace', 'restructuredtext-test-directive', 'role', 'rubric', 'section-autonumbering',
+  'sectnum', 'sidebar', 'table', 'target-notes', 'tip', 'title', 'topic', 'unicode', 'warning'
 }
-for i = 1, #dirs do
-  dirs[i] = ('%s::%s%d'):format(dirs[i], sep, XPM.METHOD)
-end
+for i = 1, #dirs do dirs[i] = ('%s::%s%d'):format(dirs[i], sep, XPM.METHOD) end
 
 local sphinx_dirs = {
-  'centered', 'code-block', 'deprecated', 'glossary', 'highlight', 'hlist',
-  'index', 'literalinclude', 'note', 'only', 'productionlist', 'rubric',
-  'sectionauthor', 'seealso', 'tabularcolumns', 'toctree', 'versionadded',
-  'versionchanged', 'warning',
+  'centered', 'code-block', 'deprecated', 'glossary', 'highlight', 'hlist', 'index',
+  'literalinclude', 'note', 'only', 'productionlist', 'rubric', 'sectionauthor', 'seealso',
+  'tabularcolumns', 'toctree', 'versionadded', 'versionchanged', 'warning'
 }
-for i = 1, #sphinx_dirs do
-  dirs[#dirs + 1] = ('%s::%s%d'):format(sphinx_dirs[i], sep, XPM.SLOT)
-end
+for i = 1, #sphinx_dirs do dirs[#dirs + 1] = ('%s::%s%d'):format(sphinx_dirs[i], sep, XPM.SLOT) end
 
+-- LuaFormatter off
 local options = {
   image = {'alt', 'height', 'width', 'scale', 'align', 'target'},
-  figure = {
-    'alt', 'height', 'width', 'scale', 'align', 'target', 'figwidth', 'figclass'
-  },
-  sidebar = {'subtitle'}, code = {'number-lines'},
+  figure = {'alt', 'height', 'width', 'scale', 'align', 'target', 'figwidth', 'figclass'},
+  sidebar = {'subtitle'},
+  code = {'number-lines'},
   ['csv-table'] = {
-    'widths', 'header-rows', 'stub-columns', 'header', 'file', 'url',
-    'encoding', 'delim', 'quote', 'keepspace', 'escape'
+    'widths', 'header-rows', 'stub-columns', 'header', 'file', 'url', 'encoding', 'delim', 'quote',
+    'keepspace', 'escape'
   },
   ['list-table'] = {'widths', 'header-rows', 'stub-columns'},
   contents = {'depth', 'local', 'backlinks'},
@@ -69,40 +62,38 @@ local options = {
   ['section-autonumbering'] = {'depth', 'prefix', 'suffix', 'start'},
   unicode = {'ltrim', 'rtrim', 'trim'},
   include = {
-    'start-line', 'end-line', 'start-after', 'end-before', 'literal', 'code',
-    'number-lines', 'encoding', 'tab-width'
+    'start-line', 'end-line', 'start-after', 'end-before', 'literal', 'code', 'number-lines',
+    'encoding', 'tab-width'
   },
-  raw = {'file', 'url', 'encoding'}, role = {'class'},
-  toctree = {
-    'maxdepth', 'numbered', 'titlesonly', 'glob', 'hidden', 'includehidden'
-  },
-  hlist = {'columns'}, glossary = {'sorted'}, highlight = {'linenothreshold'},
+  raw = {'file', 'url', 'encoding'},
+  role = {'class'},
+  toctree = {'maxdepth', 'numbered', 'titlesonly', 'glob', 'hidden', 'includehidden'},
+  hlist = {'columns'},
+  glossary = {'sorted'},
+  highlight = {'linenothreshold'},
   ['code-block'] = {'linenos', 'emphasize-lines'},
   sourcecode = {'linenos', 'emphasize-lines'},
   ['literal-include'] = {
-    'tab-width', 'linenos', 'emphasize-lines', 'language', 'encoding',
-    'pyobject', 'lines', 'start-after', 'end-before', 'prepend', 'append'
-  },
+    'tab-width', 'linenos', 'emphasize-lines', 'language', 'encoding', 'pyobject', 'lines',
+    'start-after', 'end-before', 'prepend', 'append'
+  }
 }
+-- LuaFormatter on
 for _, v in pairs(options) do
   v[#v + 1], v[#v + 2] = 'name', 'class' -- global options
   for i = 1, #v do v[i] = ('%s::%s%d'):format(v[i], sep, XPM.VARIABLE) end
 end
 
 local roles = {
-  'emphasis', 'literal', 'code', 'math', 'pep-reference', 'PEP',
-  'rfc-reference', 'RFC', 'string', 'subscript', 'sub', 'superscript', 'sup',
-  'title-reference', 'title', 't', 'raw'
+  'emphasis', 'literal', 'code', 'math', 'pep-reference', 'PEP', 'rfc-reference', 'RFC', 'string',
+  'subscript', 'sub', 'superscript', 'sup', 'title-reference', 'title', 't', 'raw'
 }
-for i = 1, #roles do
-  roles[i] = ('%s:%s%d'):format(roles[i], sep, XPM.METHOD)
-end
+for i = 1, #roles do roles[i] = ('%s:%s%d'):format(roles[i], sep, XPM.METHOD) end
 
 local sphinx_roles = {
-  'ref', 'doc', 'download', 'envvar', 'token', 'keyword', 'option', 'term',
-  'abbr', 'command', 'dfn', 'file', 'guilabel', 'kbd', 'mailheader', 'makevar',
-  'manpage', 'menuselection', 'mimetype', 'newsgroup', 'program', 'regexp',
-  'samp', 'index', 'pep', 'rfc'
+  'ref', 'doc', 'download', 'envvar', 'token', 'keyword', 'option', 'term', 'abbr', 'command',
+  'dfn', 'file', 'guilabel', 'kbd', 'mailheader', 'makevar', 'manpage', 'menuselection', 'mimetype',
+  'newsgroup', 'program', 'regexp', 'samp', 'index', 'pep', 'rfc'
 }
 for i = 1, #sphinx_roles do
   roles[#roles + 1] = ('%s:%s%d'):format(sphinx_roles[i], sep, XPM.SLOT)
@@ -115,13 +106,11 @@ textadept.editing.autocompleters.rest = function()
   local line_part = line:sub(1, pos - 1)
   local part = line_part:match('[%w-]*$')
   local name = '^' .. part
-  -- Determine whether or not the symbol is a directive, parameter, or role, and
-  -- autocomplete as appropriate.
+  -- Determine whether or not the symbol is a directive, parameter, or role, and autocomplete
+  -- as appropriate.
   if line_part:find('^%s*%.%. [%w-]*$') then
     -- Autocomplete directive.
-    for _, dir in ipairs(dirs) do
-      if dir:find(name) then list[#list + 1] = dir end
-    end
+    for _, dir in ipairs(dirs) do if dir:find(name) then list[#list + 1] = dir end end
   elseif line_part:find('^%s*:[%w-]*$') then
     -- Autocomplete parameter or role.
     for i = buffer:line_from_position(buffer.current_pos) - 1, 1, -1 do
@@ -136,24 +125,18 @@ textadept.editing.autocompleters.rest = function()
       end
       if not line:find('^%s*:') then
         -- Autocomplete role.
-        for _, role in ipairs(roles) do
-          if role:find(name) then list[#list + 1] = role end
-        end
+        for _, role in ipairs(roles) do if role:find(name) then list[#list + 1] = role end end
         break
       end
     end
   elseif line_part:find('%s+:[%w-]*$') then
     -- Autocomplete role.
-    for _, role in ipairs(roles) do
-      if role:find(name) then list[#list + 1] = role end
-    end
+    for _, role in ipairs(roles) do if role:find(name) then list[#list + 1] = role end end
   end
   return #part, list
 end
 
-textadept.editing.api_files.rest = {
-  _HOME .. '/modules/rest/api', _USERHOME .. '/modules/rest/api'
-}
+textadept.editing.api_files.rest = {_HOME .. '/modules/rest/api', _USERHOME .. '/modules/rest/api'}
 
 -- Commands.
 
@@ -175,8 +158,7 @@ events.connect(events.LEXER_LOADED, function(name)
   end
 end)
 
-local cmd = 'python "' .. _HOME .. '/modules/rest/rst2pseudoxml.py" ' ..
-  '--report=2 --halt=5 "%s"'
+local cmd = 'python "' .. _HOME .. '/modules/rest/rst2pseudoxml.py" ' .. '--report=2 --halt=5 "%s"'
 -- Show syntax errors as annotations.
 events.connect(events.FILE_AFTER_SAVE, function()
   if buffer:get_lexer() ~= 'rest' then return end
@@ -187,8 +169,7 @@ events.connect(events.FILE_AFTER_SAVE, function()
   os.spawn(cmd:format(filename), M.DOCUTILS_PATH, nil, function(chunk)
     for line in chunk:gmatch('[^\r\n]+') do
       local line_num, msg = line:match('^[^:]+:(%d+):%s*(.+)$')
-      if line_num and msg and
-         (msg:find('WARNING') or msg:find('ERROR') or msg:find('SEVERE')) then
+      if line_num and msg and (msg:find('WARNING') or msg:find('ERROR') or msg:find('SEVERE')) then
         if msg:find('Unknown interpreted text role') then
           -- Ignore role errors when it comes to Sphinx roles.
           -- TODO: determine if the document is Sphinx or not?
@@ -219,27 +200,24 @@ function M.goto_section()
   local items = {}
   for i = 1, buffer.line_count - 2 do
     if buffer.fold_level[i + 1] & buffer.FOLDLEVELHEADERFLAG > 0 then
-      local name = buffer:get_line(i + 1):match('^.') ..
-        buffer:get_line(i):match('^[^\r\n]*')
+      local name = buffer:get_line(i + 1):match('^.') .. buffer:get_line(i):match('^[^\r\n]*')
       if name then items[#items + 1], items[#items + 2] = i + 1, name end
     end
   end
   local button, i = ui.dialogs.filteredlist{
-    title = 'Goto Section', columns = {'Line', 'Name'}, items = items,
-    search_column = 2, string_output = true
+    title = 'Goto Section', columns = {'Line', 'Name'}, items = items, search_column = 2,
+    string_output = true
   }
   if button ~= _L['OK'] then return end
   textadept.editing.goto_line(tonumber(i))
 end
 
 ---
--- Opens the image specified in an "image" or "figure" directive on the current
--- line.
+-- Opens the image specified in an "image" or "figure" directive on the current line.
 -- @name open_image
 function M.open_image()
   local line = buffer:get_cur_line()
-  local file = line:match('^%s*%.%. image::%s+(%S+)') or
-    line:match('^%s*%.%. figure::%s+(%S+)')
+  local file = line:match('^%s*%.%. image::%s+(%S+)') or line:match('^%s*%.%. figure::%s+(%S+)')
   if not file or not buffer.filename then return end
   local cmd = 'xdg-open "%s"'
   if WIN32 then
