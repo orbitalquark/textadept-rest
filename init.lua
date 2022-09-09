@@ -153,7 +153,7 @@ end)
 -- # > * > = > - > ^ > ".
 events.connect(events.LEXER_LOADED, function(name)
   if name == 'rest' and buffer:get_line(1):find('^%s*%.%. .-sphinx') then
-    view.property['fold.by.sphinx.convention'] = '1'
+    buffer.property['fold.scintillua.rest.by.sphinx.convention'] = '1'
     buffer:colorize(1, buffer.end_styled)
   end
 end)
@@ -161,7 +161,7 @@ end)
 local cmd = 'python "' .. _HOME .. '/modules/rest/rst2pseudoxml.py" ' .. '--report=2 --halt=5 "%s"'
 -- Show syntax errors as annotations.
 events.connect(events.FILE_AFTER_SAVE, function()
-  if buffer:get_lexer() ~= 'rest' then return end
+  if buffer.lexer_language ~= 'rest' then return end
   buffer:annotation_clear_all()
   view.annotation_visible = view.ANNOTATION_BOXED
   local jumped = false
