@@ -204,12 +204,10 @@ function M.goto_section()
       if name then items[#items + 1], items[#items + 2] = i + 1, name end
     end
   end
-  local button, i = ui.dialogs.filteredlist{
-    title = 'Goto Section', columns = {'Line', 'Name'}, items = items, search_column = 2,
-    string_output = true
+  local i = ui.dialogs.list{
+    title = 'Goto Section', columns = {'Line', 'Name'}, items = items, search_column = 2
   }
-  if button ~= _L['OK'] then return end
-  textadept.editing.goto_line(tonumber(i))
+  if i then textadept.editing.goto_line(tonumber(items[i])) end
 end
 
 ---
@@ -228,7 +226,7 @@ function M.open_image()
   os.spawn(cmd:format(buffer.filename:match('^.+[/\\]') .. file))
 end
 
-keys.rest[not OSX and 'ctrl+alt+g' or 'ctrl+cmd+g'] = M.goto_section
+keys.rest[not (OSX and not CURSES) and 'ctrl+alt+g' or 'ctrl+cmd+g'] = M.goto_section
 keys.rest['shift+\n'] = M.open_image
 
 -- Snippets.
