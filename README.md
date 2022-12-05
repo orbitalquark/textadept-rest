@@ -3,6 +3,8 @@
 The reST module for Textadept.
 It provides utilities for editing reST and Sphinx documents.
 
+**WARNING:** this module is deprecated. It may not work in Textadept 12.0.
+
 ## Key Bindings
 
 + `Ctrl+Alt+J` (`^⌘J` | `M-S-J`)
